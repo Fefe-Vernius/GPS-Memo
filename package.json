@@ -20,6 +20,10 @@
     "watchapp": {
       "watchface": false
     },
+    "capabilities": [
+      "configurable",
+      "location"
+    ],
     "messageKeys": [
       "Latitude",
       "Longitude",
