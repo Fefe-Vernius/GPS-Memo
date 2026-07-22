@@ -1,0 +1,33 @@
+{
+  "name": "gps-memo",
+  "author": "Felix",
+  "version": "1.0.0",
+  "keywords": ["pebble-app"],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "GPS Memo",
+    "uuid": "acdc3e3f-27f9-481b-8ad2-c43755cb5e44",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk",
+      "diorite",
+      "emery"
+    ],
+    "watchapp": {
+      "watchface": false
+    },
+    "messageKeys": [
+      "Latitude",
+      "Longitude",
+      "SaveEntry",
+      "SaveAck"
+    ],
+    "resources": {
+      "media": []
+    }
+  }
+}
