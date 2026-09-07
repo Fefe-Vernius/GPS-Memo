@@ -6,8 +6,13 @@ var GOTIFY_PRIORITY_KEY = 'gotifyPriority';
 var GOTIFY_TITLE_KEY = 'gotifyTitle';
 var CUSTOM_CURL_KEY = 'customCurl';
 
-var DEFAULT_PRIORITY = '5 (default)';
-var DEFAULT_TITLE = 'GPS Memo (default)';
+// Values actually sent when the corresponding field is left empty.
+var DEFAULT_PRIORITY = '5';
+var DEFAULT_TITLE = 'GPS Memo';
+
+// Shown as form placeholders only — never sent, so they can be labelled.
+var PRIORITY_PLACEHOLDER = DEFAULT_PRIORITY + ' (default)';
+var TITLE_PLACEHOLDER = DEFAULT_TITLE + ' (default)';
 
 var lastLat = null;
 var lastLon = null;
@@ -113,7 +118,12 @@ function sendGotifyNotification(message) {
   }
 
   var title = localStorage.getItem(GOTIFY_TITLE_KEY) || DEFAULT_TITLE;
-  var priority = localStorage.getItem(GOTIFY_PRIORITY_KEY) || DEFAULT_PRIORITY;
+
+  // Gotify expects a number; fall back rather than sending something it rejects.
+  var priority = localStorage.getItem(GOTIFY_PRIORITY_KEY) || '';
+  if (!/^\d+$/.test(priority)) {
+    priority = DEFAULT_PRIORITY;
+  }
 
   var body = 'title=' + encodeURIComponent(title) +
     '&message=' + encodeURIComponent(message) +
@@ -389,9 +399,9 @@ function buildConfigHtml(log, config) {
     '<label for="token">App Token</label>' +
     '<input id="token" type="text" placeholder="application token" value="' + escapeHtml(config.token) + '">' +
     '<label for="title">Title</label>' +
-    '<input id="title" type="text" placeholder="' + escapeHtml(DEFAULT_TITLE) + '" value="' + escapeHtml(config.title) + '">' +
+    '<input id="title" type="text" placeholder="' + escapeHtml(TITLE_PLACEHOLDER) + '" value="' + escapeHtml(config.title) + '">' +
     '<label for="priority">Priority</label>' +
-    '<input id="priority" type="number" min="0" max="10" placeholder="' + escapeHtml(DEFAULT_PRIORITY) + '" value="' + escapeHtml(config.priority) + '">' +
+    '<input id="priority" type="number" min="0" max="10" placeholder="' + escapeHtml(PRIORITY_PLACEHOLDER) + '" value="' + escapeHtml(config.priority) + '">' +
     '</div>' +
 
     '<div id="curlFields">' +
