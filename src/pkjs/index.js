@@ -62,6 +62,26 @@ function appendLogEntry(line) {
   localStorage.setItem(LOG_STORAGE_KEY, log);
 }
 
+// localStorage.clear() is not implemented in every PebbleKit JS runtime, so
+// fall back to removing the keys this app is known to write.
+function resetAllData() {
+  try {
+    localStorage.clear();
+  } catch (err) {
+    console.log('GPS Memo: localStorage.clear() unavailable, removing keys');
+  }
+
+  var keys = [
+    LOG_STORAGE_KEY, NOTIFY_PROVIDER_KEY, GOTIFY_URL_KEY, GOTIFY_TOKEN_KEY,
+    GOTIFY_PRIORITY_KEY, GOTIFY_TITLE_KEY, CUSTOM_CURL_KEY
+  ];
+  for (var i = 0; i < keys.length; i++) {
+    localStorage.removeItem(keys[i]);
+  }
+
+  console.log('GPS Memo: all saved entries and settings removed');
+}
+
 function lastLogLine() {
   var log = localStorage.getItem(LOG_STORAGE_KEY) || '';
   if (!log) {
@@ -348,6 +368,7 @@ function buildConfigHtml(log, config) {
     'input,select{width:100%;padding:8px;font-size:15px;box-sizing:border-box;margin-bottom:8px;}' +
     'label{display:block;font-size:14px;margin-bottom:2px;}' +
     'button{margin-top:12px;padding:10px 16px;font-size:16px;margin-right:8px;}' +
+    'button.danger{color:#a00;}' +
     '</style></head><body>' +
     '<h2>GPS Memo</h2>' +
 
@@ -385,6 +406,7 @@ function buildConfigHtml(log, config) {
     '<button onclick="closeConfig(\'save\')">Save</button>' +
     '<button onclick="closeConfig(\'test\')">Send Test</button>' +
     '<button onclick="clearLog()">Clear Log</button>' +
+    '<button class="danger" onclick="resetAll()">Reset All Data</button>' +
     '</div>' +
 
     '<script>' +
@@ -405,6 +427,9 @@ function buildConfigHtml(log, config) {
     '}' +
     'function clearLog(){' +
     'if (confirm("Clear all saved entries?")) { closeConfig("clear"); }' +
+    '}' +
+    'function resetAll(){' +
+    'if (confirm("Delete all saved entries AND all notification settings? This cannot be undone.")) { closeConfig("reset"); }' +
     '}' +
     'updateProvider();' +
     '</script>' +
@@ -446,6 +471,11 @@ Pebble.addEventListener('webviewclosed', function(e) {
   }
   try {
     var result = JSON.parse(decodeURIComponent(e.response));
+
+    if (result.action === 'reset') {
+      resetAllData();
+      return;
+    }
 
     if (typeof result.provider === 'string') {
       localStorage.setItem(NOTIFY_PROVIDER_KEY, result.provider);
