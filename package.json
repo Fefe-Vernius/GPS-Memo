@@ -1,37 +1,39 @@
 {
-  "name": "gps-memo",
-  "author": "Felix",
-  "version": "1.0.0",
-  "keywords": ["pebble-app"],
-  "private": true,
-  "dependencies": {},
-  "pebble": {
-    "displayName": "GPS Memo",
-    "uuid": "acdc3e3f-27f9-481b-8ad2-c43755cb5e44",
-    "sdkVersion": "3",
-    "enableMultiJS": true,
-    "targetPlatforms": [
-      "aplite",
-      "basalt",
-      "chalk",
-      "diorite",
-      "emery"
+    "author": "Felix",
+    "dependencies": {},
+    "keywords": [
+        "pebble-app"
     ],
-    "watchapp": {
-      "watchface": false
+    "name": "gps-memo",
+    "pebble": {
+        "capabilities": [
+            "configurable",
+            "location"
+        ],
+        "displayName": "GPS Memo",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "Latitude",
+            "Longitude",
+            "SaveEntry",
+            "SaveAck"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
+        ],
+        "uuid": "acdc3e3f-27f9-481b-8ad2-c43755cb5e44",
+        "watchapp": {
+            "watchface": false
+        }
     },
-    "capabilities": [
-      "configurable",
-      "location"
-    ],
-    "messageKeys": [
-      "Latitude",
-      "Longitude",
-      "SaveEntry",
-      "SaveAck"
-    ],
-    "resources": {
-      "media": []
-    }
-  }
+    "version": "1.0.0"
 }

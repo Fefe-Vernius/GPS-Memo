@@ -96,7 +96,7 @@ static void window_load(Window *window) {
   s_time_layer = text_layer_create(GRect(inset, (int16_t)(h * 0.04), w, (int16_t)(h * 0.24)));
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
-  text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
+  text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   text_layer_set_overflow_mode(s_time_layer, GTextOverflowModeWordWrap);
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));
@@ -104,21 +104,21 @@ static void window_load(Window *window) {
   s_lat_layer = text_layer_create(GRect(inset, (int16_t)(h * 0.32), w, (int16_t)(h * 0.16)));
   text_layer_set_background_color(s_lat_layer, GColorClear);
   text_layer_set_text_color(s_lat_layer, GColorBlack);
-  text_layer_set_font(s_lat_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_font(s_lat_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   text_layer_set_text_alignment(s_lat_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_lat_layer));
 
   s_lon_layer = text_layer_create(GRect(inset, (int16_t)(h * 0.50), w, (int16_t)(h * 0.16)));
   text_layer_set_background_color(s_lon_layer, GColorClear);
   text_layer_set_text_color(s_lon_layer, GColorBlack);
-  text_layer_set_font(s_lon_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_font(s_lon_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   text_layer_set_text_alignment(s_lon_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(s_lon_layer));
 
   s_status_layer = text_layer_create(GRect(inset, (int16_t)(h * 0.80), w, (int16_t)(h * 0.18)));
   text_layer_set_background_color(s_status_layer, GColorClear);
   text_layer_set_text_color(s_status_layer, GColorDarkGray);
-  text_layer_set_font(s_status_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  text_layer_set_font(s_status_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(s_status_layer, GTextAlignmentCenter);
   text_layer_set_text(s_status_layer, "Hold SELECT to save");
   layer_add_child(window_layer, text_layer_get_layer(s_status_layer));
@@ -150,7 +150,7 @@ static void init(void) {
   app_message_register_outbox_failed(outbox_failed_callback);
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
-  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
 }
 
 static void deinit(void) {
