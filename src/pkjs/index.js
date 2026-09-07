@@ -309,12 +309,28 @@ function sendCustomCurl(message) {
   req.send(body);
 }
 
+// Settings saved before the service dropdown existed have Gotify details but
+// no stored provider; treat those as Gotify so they keep working.
+function currentProvider() {
+  var stored = localStorage.getItem(NOTIFY_PROVIDER_KEY);
+  if (stored) {
+    return stored;
+  }
+  if (localStorage.getItem(GOTIFY_URL_KEY) && localStorage.getItem(GOTIFY_TOKEN_KEY)) {
+    return 'gotify';
+  }
+  return 'none';
+}
+
 function sendNotification(message) {
-  var provider = localStorage.getItem(NOTIFY_PROVIDER_KEY) || 'gotify';
-  if (provider === 'curl') {
+  var provider = currentProvider();
+
+  if (provider === 'gotify') {
+    sendGotifyNotification(message);
+  } else if (provider === 'curl') {
     sendCustomCurl(message);
   } else {
-    sendGotifyNotification(message);
+    console.log('GPS Memo: notifications disabled, nothing sent');
   }
 }
 
@@ -342,6 +358,7 @@ function buildConfigHtml(log, config) {
     '<h3>Notifications</h3>' +
     '<label for="provider">Service</label>' +
     '<select id="provider" onchange="updateProvider()">' +
+    '<option value="none"' + (config.provider === 'none' ? ' selected' : '') + '>None</option>' +
     '<option value="gotify"' + (config.provider === 'gotify' ? ' selected' : '') + '>Gotify</option>' +
     '<option value="curl"' + (config.provider === 'curl' ? ' selected' : '') + '>Custom curl command</option>' +
     '</select>' +
@@ -412,7 +429,7 @@ Pebble.addEventListener('appmessage', function(e) {
 Pebble.addEventListener('showConfiguration', function() {
   var log = localStorage.getItem(LOG_STORAGE_KEY) || '';
   var config = {
-    provider: localStorage.getItem(NOTIFY_PROVIDER_KEY) || 'gotify',
+    provider: currentProvider(),
     url: localStorage.getItem(GOTIFY_URL_KEY) || '',
     token: localStorage.getItem(GOTIFY_TOKEN_KEY) || '',
     title: localStorage.getItem(GOTIFY_TITLE_KEY) || '',
