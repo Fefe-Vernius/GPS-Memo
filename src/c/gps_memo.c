@@ -73,9 +73,14 @@ static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResul
 }
 
 static void long_click_handler(ClickRecognizerRef recognizer, void *context) {
+  time_t now = time(NULL);
+  struct tm *save_time = localtime(&now);
+  char save_buffer[32];
+  strftime(save_buffer, sizeof(save_buffer), "%Y%m%d_%Z_%H%M%S", save_time);
+
   DictionaryIterator *iter;
   app_message_outbox_begin(&iter);
-  dict_write_cstring(iter, MESSAGE_KEY_SaveEntry, s_time_buffer);
+  dict_write_cstring(iter, MESSAGE_KEY_SaveEntry, save_buffer);
   app_message_outbox_send();
 
   text_layer_set_text(s_status_layer, "Saving...");
