@@ -6,8 +6,8 @@ var GOTIFY_PRIORITY_KEY = 'gotifyPriority';
 var GOTIFY_TITLE_KEY = 'gotifyTitle';
 var CUSTOM_CURL_KEY = 'customCurl';
 
-var DEFAULT_PRIORITY = '5';
-var DEFAULT_TITLE = 'GPS Memo';
+var DEFAULT_PRIORITY = '5 (default)';
+var DEFAULT_TITLE = 'GPS Memo (default)';
 
 var lastLat = null;
 var lastLon = null;
@@ -355,7 +355,7 @@ function buildConfigHtml(log, config) {
     '<p>One saved entry per line: timestamp and raw GPS coordinates.</p>' +
     '<textarea id="log" readonly>' + escapeHtml(log) + '</textarea>' +
 
-    '<h3>Notifications</h3>' +
+    '<h3>Notifications (optional)</h3>' +
     '<label for="provider">Service</label>' +
     '<select id="provider" onchange="updateProvider()">' +
     '<option value="none"' + (config.provider === 'none' ? ' selected' : '') + '>None</option>' +
