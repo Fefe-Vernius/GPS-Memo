@@ -3,6 +3,10 @@ var LOG_STORAGE_KEY = 'gpsMemoLog';
 var lastLat = null;
 var lastLon = null;
 
+var lastSentLat = null;
+var lastSentLon = null;
+var DISPLAY_COORD_DECIMALS = 4;
+
 var locationOptions = {
   enableHighAccuracy: true,
   maximumAge: 5000,
@@ -12,6 +16,15 @@ var locationOptions = {
 function locationSuccess(pos) {
   lastLat = pos.coords.latitude.toFixed(6);
   lastLon = pos.coords.longitude.toFixed(6);
+
+  var displayLat = pos.coords.latitude.toFixed(DISPLAY_COORD_DECIMALS);
+  var displayLon = pos.coords.longitude.toFixed(DISPLAY_COORD_DECIMALS);
+
+  if (displayLat === lastSentLat && displayLon === lastSentLon) {
+    return;
+  }
+  lastSentLat = displayLat;
+  lastSentLon = displayLon;
 
   Pebble.sendAppMessage({
     'Latitude': lastLat,

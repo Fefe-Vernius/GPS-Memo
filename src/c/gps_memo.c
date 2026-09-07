@@ -31,18 +31,33 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
 }
 
+#define DISPLAY_COORD_DECIMALS 4
+
+static void format_coord(char *dest, size_t dest_size, const char *label, const char *value) {
+  char truncated[16];
+  strncpy(truncated, value, sizeof(truncated) - 1);
+  truncated[sizeof(truncated) - 1] = '\0';
+
+  char *dot = strchr(truncated, '.');
+  if (dot && strlen(dot) > DISPLAY_COORD_DECIMALS + 1) {
+    dot[DISPLAY_COORD_DECIMALS + 1] = '\0';
+  }
+
+  snprintf(dest, dest_size, "%s: %s", label, truncated);
+}
+
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   Tuple *lat_tuple = dict_find(iterator, MESSAGE_KEY_Latitude);
   Tuple *lon_tuple = dict_find(iterator, MESSAGE_KEY_Longitude);
   Tuple *ack_tuple = dict_find(iterator, MESSAGE_KEY_SaveAck);
 
   if (lat_tuple) {
-    snprintf(s_lat_buffer, sizeof(s_lat_buffer), "Lat: %s", lat_tuple->value->cstring);
+    format_coord(s_lat_buffer, sizeof(s_lat_buffer), "Lat", lat_tuple->value->cstring);
     text_layer_set_text(s_lat_layer, s_lat_buffer);
   }
 
   if (lon_tuple) {
-    snprintf(s_lon_buffer, sizeof(s_lon_buffer), "Lon: %s", lon_tuple->value->cstring);
+    format_coord(s_lon_buffer, sizeof(s_lon_buffer), "Lon", lon_tuple->value->cstring);
     text_layer_set_text(s_lon_layer, s_lon_buffer);
   }
 
