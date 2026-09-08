@@ -14,6 +14,9 @@ var DEFAULT_TITLE = 'GPS Memo';
 var PRIORITY_PLACEHOLDER = DEFAULT_PRIORITY + ' (default)';
 var TITLE_PLACEHOLDER = DEFAULT_TITLE + ' (default)';
 
+// Sent by the settings page "Send Test" button, in place of a real entry.
+var TEST_MESSAGE = 'This is a test message';
+
 var lastLat = null;
 var lastLon = null;
 var lastTimestamp = null;
@@ -85,15 +88,6 @@ function resetAllData() {
   }
 
   console.log('GPS Memo: all saved entries and settings removed');
-}
-
-function lastLogLine() {
-  var log = localStorage.getItem(LOG_STORAGE_KEY) || '';
-  if (!log) {
-    return '';
-  }
-  var lines = log.split('\n');
-  return lines[lines.length - 1];
 }
 
 function escapeHtml(text) {
@@ -509,7 +503,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
     if (result.action === 'clear') {
       localStorage.removeItem(LOG_STORAGE_KEY);
     } else if (result.action === 'test') {
-      sendNotification(lastLogLine() || 'GPS Memo: no saved entries yet');
+      sendNotification(TEST_MESSAGE);
     }
   } catch (err) {
     console.log('GPS Memo: could not parse config response: ' + err.message);
