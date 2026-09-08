@@ -20,15 +20,6 @@ holding the SELECT button.
 - **Added a "Reset All Data" button** to the Settings page, clearing the saved
   entries and all notification settings at once. "Clear Log" still removes only
   the entries.
-- **App icon** for the launcher and the app store listing.
-- **Larger on-screen fonts** for the coordinate and status text.
-- **Lower power use.** The clock now refreshes once a minute instead of once a
-  second, coordinates display to 4 decimals instead of 6, and the phone only
-  sends an update when the position actually changes at that resolution.
-- **Fixed:** saved entries recorded the time of the last screen refresh rather
-  than the moment SELECT was pressed, so timestamps could be up to a minute
-  early. The exact press time is now captured, and entries keep full 6-decimal
-  coordinates even though the watch displays 4.
 
 ### 1.0.0
 
@@ -47,6 +38,10 @@ holding the SELECT button.
   log kept in the phone app's `localStorage`. Saved entries keep the full
   6-decimal coordinates regardless of what the watch displays. The watch
   vibrates and shows "Saved!" briefly to confirm.
+- The displayed timestamp refreshes once a minute and the coordinates display 
+  to 4 decimals instead of 6, and the phone only sends an update when the 
+  position actually changes at that resolution. Reducing the screen update rate.
+  This does not affect the timestamp and coordinate precision saved in the log. 
 - The watch app's Settings page (opened from the Pebble phone app) shows
   the full log in a read-only textarea, one entry per line, and lets you
   configure notifications (see Release Notes above). Buttons: "Save",
