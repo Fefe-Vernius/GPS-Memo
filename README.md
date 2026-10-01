@@ -4,6 +4,11 @@ A Pebble watchapp that shows the phone's raw GPS coordinates and the
 current date/time, and lets you save a timestamped coordinate entry by
 holding the SELECT button.
 
+This repository also contains a second, separate watchapp:
+[`food-reminder/`](food-reminder/README.md), with meal and snack reminders that
+open full screen with your own pictures, plus timeline pins. It has its own
+`package.json` and is built from inside that directory.
+
 ## Release Notes
 
 ### 1.1.0
